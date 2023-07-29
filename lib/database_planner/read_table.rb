@@ -18,11 +18,8 @@ module DatabasePlanner
         elsif line.start_with?('create_table')
           table_start_at_index = index
           name = line.gsub(/[^a-zA-Z_\s]/, '').split(' ')[1]
-          fields = map_table_fields(table_start_at_index)
-          @tables << {
-            table: name,
-            fields: fields
-          }
+          table = map_table(name, table_start_at_index)
+          @tables << table
         end
       end
 
@@ -33,23 +30,24 @@ module DatabasePlanner
       puts '*' * 50
     end
 
-    def map_table_fields(start)
+    def map_table(name, start)
       @fields = []
       @lines.each_with_index do |line, index|
-        if start >= index
-          if line.start_with?('t.')
-            line = line.split(' ')
-            @fields << {
-              type: line[0].gsub('t.', ''),
-              name: line[1].gsub(/[^a-zA-Z_]/, '')
-            }
-          elsif line == 'end'
-            break
-          end
-        end
+        next unless index >= start
+        next unless line.start_with?('t.')
+        break if line == 'end'
+
+        line = line.split(' ')
+        @fields << {
+          name: line[1].gsub(/[^a-zA-Z_]/, ''),
+          type: line[0].gsub('t.', '')
+        }
       end
 
-      @fields
+      {
+        table: name,
+        fields: @fields
+      }
     end
   end
 end
