@@ -23,19 +23,15 @@ module DatabasePlanner
         end
       end
 
-      puts '*' * 50
-      p @schema_version
-      puts '*' * 50
-      p @tables
-      puts '*' * 50
+      @tables
     end
 
     def map_table(name, start)
       @fields = []
       @lines.each_with_index do |line, index|
         next unless index >= start
-        next unless line.start_with?('t.')
         break if line == 'end'
+        next unless line.start_with?('t.')
 
         line = line.split(' ')
         @fields << {
