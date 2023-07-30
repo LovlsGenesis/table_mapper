@@ -1,11 +1,15 @@
 require_relative 'migration_file_templates'
+# OUTSTANDING ISSUES
+# * Rails cares what the migration files are named
+#   * They can't have the same version number (time stamp)
+#   * The name has to much the classname and the purpose of the migration e.g. "CreateUsers"
 
 module DatabasePlanner
   class MigrationGenerator
     include MigrationFileTemplates
 
     def initialize
-      puts "Initialized!"
+      puts "Migration generator initialized!"
     end
 
     def generate_migration_code(incoming_schema)
@@ -49,13 +53,11 @@ module DatabasePlanner
       # Get the timestamp prefix for the migration file name
       timestamp = Time.now.utc.strftime("%Y%m%d%H%M%S")
 
-      # Create unique(ish) migration name
-      migration_name = migration_code.lines.first.chomp.gsub(/\s+/, '_')
-      # puts migration_name
+      # Create random(ish) number so each migration file number is different (enough)
+      migration_number = rand(100_000..999_999)
 
       # Define the migration file name
-      migration_file_name = "#{timestamp}_#{migration_name}.rb"
-      puts migration_file_name
+      migration_file_name = "#{timestamp}#{migration_number}.rb"
 
       # Define the target path to the Rails app's db/migrate folder
       target_path = File.expand_path("../../../../tm_test_app/db/migrate", __FILE__)
