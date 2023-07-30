@@ -1,1 +1,1 @@
-//= link_directory ../stylesheets/database_planner .css
+//= link database_planner/application.css
