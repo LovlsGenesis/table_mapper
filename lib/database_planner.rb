@@ -7,7 +7,7 @@ require 'database_planner/get_tables'
 
 require 'database_planner/render_migrations'
 require 'database_planner/render_migration'
-
+require 'database_planner/tables'
 
 raise 'I need Rails to run!' unless Kernel.const_defined? 'Rails'
 
