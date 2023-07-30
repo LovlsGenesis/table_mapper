@@ -4,6 +4,7 @@ require "database_planner/engine"
 require 'database_planner/config'
 require 'database_planner/read_table'
 require 'database_planner/get_tables'
+require 'database_planner/migration_generator'
 
 require 'database_planner/render_migrations'
 require 'database_planner/render_migration'
