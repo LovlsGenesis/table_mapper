@@ -4,11 +4,12 @@ module DatabasePlanner
 
     def initialize(filename)
       @filename = filename
+      @tables = []
+      @schema_version = nil
     end
 
     def read_file
       file = File.read(@filename)
-      @tables = []
 
       @lines = file.split("\n").map(&:lstrip).reject { |line| line.first == '#' || line.empty? }
 
